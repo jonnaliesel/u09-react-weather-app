@@ -1,5 +1,10 @@
 import React from 'react';
 
+const dayTempStyle = {
+    display: "flex",
+    justifyContent: "center",
+}
+
 function Forecast(props) {
   const { weatherData, tempUnit } = props.state;
   console.log(weatherData);
@@ -31,7 +36,7 @@ function Forecast(props) {
   return (
     <div className='forecast'>
       <h2>Forecast</h2>
-      <div className='24hTemp'>
+      <div className='dayTempContainer' style={dayTempStyle}>
         {dayTempList.map((temp) => (
           <div key='temp.dt' style={{ border: '1px solid' }}>
             <div className='dayTime'>
