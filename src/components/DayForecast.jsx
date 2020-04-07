@@ -56,15 +56,14 @@ const DayForecast = (props) => {
 
           {/* Weather Icon */}
           {temp.value.weather.map((weatherType) => (
-              <>
+              <div key={Math.random() * 99999}>
             <img
-              key={Math.random()}
               className='dayWeatherIcon'
               src={`http://openweathermap.org/img/wn/${weatherType.icon}@2x.png`}
               alt={weatherType.description}
             />
             <div>{weatherType.description}</div>
-            </>
+            </div>
             ))}
 
           <div className='dayTemp'>

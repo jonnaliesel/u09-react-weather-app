@@ -18,7 +18,7 @@ const rowStyle = {
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',
-  borderBottom: '1px solid lightgray'
+  borderBottom: '1px solid lightgray',
 };
 
 const minTempStyle = {
@@ -57,16 +57,15 @@ const FiveDayForecast = (props) => {
           {/* Weather Icon */}
           {/* <div> */}
           {weatherData.weather.map((weatherType) => (
-            <>
-            <img
-              key={Math.random()}
-              className='dayWeatherIcon'
-              src={`http://openweathermap.org/img/wn/${weatherType.icon}@2x.png`}
-              alt={weatherType.description}
-              title={weatherType.description}
+            <div key={Math.random() * 99999}>
+              <img
+                className='dayWeatherIcon'
+                src={`http://openweathermap.org/img/wn/${weatherType.icon}@2x.png`}
+                alt={weatherType.description}
+                title={weatherType.description}
               />
-            {/* <div>{weatherType.description}</div> */}
-            </>
+              {/* <div>{weatherType.description}</div> */}
+            </div>
           ))}
           {/* </div> */}
 
@@ -82,7 +81,6 @@ const FiveDayForecast = (props) => {
               {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
             </span>
           </span>
-
         </div>
       ))}
     </div>
