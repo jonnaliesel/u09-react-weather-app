@@ -1,4 +1,5 @@
 import React from 'react';
+import Forecast from './components/Forecast';
 
 class Api extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class Api extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, weatherData } = this.state;
+    const { error, isLoaded, /*weatherData*/ } = this.state;
 
     if (error) {
       return <div>Something went wrong: {error.message}</div>;
@@ -53,17 +54,19 @@ class Api extends React.Component {
       return <div>Loading...</div>;
     } else {
       return (
+          /*
         <div>
           {weatherData.city.name} {weatherData.city.country}
           <div>List data</div>
           {weatherData.list.map((dataTimestamp) => (
             <div key={dataTimestamp.dt}>
               <p>Time: {dataTimestamp.dt}</p>
-              {/* <p>{Date.prototype.toLocaleString(dataTimestamp.dt)}</p> */}
               <p>Temp: {dataTimestamp.main.temp}</p>
             </div>
           ))}
         </div>
+        */
+            <Forecast state={this.state} />
       );
     }
   }
