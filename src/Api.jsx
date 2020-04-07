@@ -7,6 +7,7 @@ class Api extends React.Component {
       error: null,
       isLoaded: false,
       currentCity: 'Stockholm',
+      tempUnit: 'metric',
       weatherData: {},
     };
   }
@@ -15,11 +16,28 @@ class Api extends React.Component {
     const apiKey = process.env.REACT_APP_API_KEY;
 
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=metric&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${apiKey}`
     )
-      .then((res) => res.json())
-      .then((res) => this.setState({ weatherData: res, isLoaded: true }))
-      .catch((err) => this.setState({ error: err, isLoaded: true }));
+      .then((res) => {
+        // check if we get an ok response else throw an error
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error(`${res.status} ${res.statusText}`);
+        }
+      })
+      .then(
+        // load the results.json into state
+        (res) => {
+          this.setState({
+            weatherData: res,
+            isLoaded: true,
+          });
+          console.log('Fetched forecast for:', this.state.currentCity);
+        },
+        // catch error
+        (err) => this.setState({ error: err, isLoaded: true })
+      );
   }
 
   componentDidMount() {
@@ -28,7 +46,6 @@ class Api extends React.Component {
 
   render() {
     const { error, isLoaded, weatherData } = this.state;
-    console.log(weatherData);
 
     if (error) {
       return <div>Something went wrong: {error.message}</div>;
