@@ -33,7 +33,7 @@ function Forecast(props) {
       <h2>Forecast</h2>
       <div className='24hTemp'>
         {dayTempList.map((temp) => (
-          <div key='temp.dt' style={{border: "1px solid"}}>
+          <div key='temp.dt' style={{ border: '1px solid' }}>
             <div className='dayTime'>
               {Intl.DateTimeFormat('sv-SE', dayDateOptions).format(
                 temp.value.dt * 1000
@@ -52,20 +52,23 @@ function Forecast(props) {
         ))}
       </div>
       <div className='fiveDayList'>
-        {/* {weatherData.list.map((weatherData) => (
-          <div className='row' key={weatherData.dt} style={{listStyle: "none", border: "1px solid"}}>
-            <div >
+        {weatherData.list.map((weatherData) => (
+          <div
+            className='row'
+            key={weatherData.dt}
+            style={{ listStyle: 'none', border: '1px solid' }}
+          >
+            <div>
               {Intl.DateTimeFormat('sv-SE', dateOptions).format(
                 weatherData.dt * 1000
               )}
-              </div>
-              <div>
+            </div>
+            <div>
               {weatherData.main.temp}
               {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
             </div>
           </div>
-
-        ))} */}
+        ))}
       </div>
     </div>
   );
