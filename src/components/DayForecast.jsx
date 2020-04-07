@@ -10,11 +10,12 @@ const dayContainerStyle = {
     borderRadius: '10px',
     margin: '.5rem .25rem',
     padding: '.6rem',
+    textTransform: 'capitalize',
+
 };
 
 const weekdayStyle = {
-    textTransform: 'capitalize',
-    padding: '.5rem',
+    // padding: '.5rem',
 }
 
 
