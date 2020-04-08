@@ -37,8 +37,6 @@ const FiveDayForecast = (props) => {
     // year: 'numeric',
     month: 'long',
     day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
   };
 
   return (
@@ -52,6 +50,11 @@ const FiveDayForecast = (props) => {
             {Intl.DateTimeFormat('en-US', dateOptions).format(
               weatherData.dt * 1000
             )}
+            {/* Timestamp */}
+            {", " + Intl.DateTimeFormat('sv-SE', {
+              hour: 'numeric',
+              // minute: 'numeric'
+            }).format(weatherData.dt * 1000)}h
           </span>
 
           {/* Weather Icon */}
