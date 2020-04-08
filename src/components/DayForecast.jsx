@@ -38,6 +38,8 @@ const DayForecast = (props) => {
   }
 
   return (
+    <div>
+      <h3>24h Forecast</h3>
     <div className='dayTempContainer' style={dayTempContainerStyle}>
       {dayTempList.map((temp) => (
         <div key={temp.value.dt} style={dayContainerStyle}>
@@ -73,6 +75,7 @@ const DayForecast = (props) => {
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 };

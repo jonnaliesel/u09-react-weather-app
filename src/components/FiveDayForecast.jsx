@@ -41,7 +41,7 @@ const FiveDayForecast = (props) => {
 
   return (
     <div className='fiveDayList' style={fiveDayStyle}>
-      <h2>Five day Forecast</h2>
+      <h3>Five day Forecast</h3>
       {weatherData.list.map((weatherData) => (
         <div key={weatherData.dt} className='row' style={rowStyle}>
           {/* Timestamp into readable date */}
