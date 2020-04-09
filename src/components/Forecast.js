@@ -1,19 +1,18 @@
 import React from 'react';
 import DayForecast from './DayForecast';
-import FiveDayForecast from './FiveDayForecast';
+// import FiveDayForecast from './FiveDayForecast';
 
 
 function Forecast(props) {
-  const { weatherData, tempUnit } = props.state;
-  console.log(weatherData);
+  console.log("Forecast props: ", props);
 
 
   return (
     <div className='forecast'>
       <h2>Forecast</h2>
 
-      <DayForecast weatherData={weatherData} tempUnit={tempUnit}/>
-      <FiveDayForecast weatherData={weatherData} tempUnit={tempUnit}/>
+      <DayForecast weatherData={props.forecast} tempUnit={props.tempUnit}/>
+      {/* <FiveDayForecast weatherData={forecast} tempUnit={tempUnit}/> */}
 
 
     </div>
