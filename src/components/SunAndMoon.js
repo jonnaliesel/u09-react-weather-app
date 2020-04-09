@@ -4,7 +4,7 @@ import convertTime from './ConvertTime';
 function SunAndMoon(props) {
   const { sunrise, sunset } = props.time;
 
-  console.log('sun and moon', props);
+//   console.log('sun and moon', props);
 
   const dateOptions = {
     hour: 'numeric',

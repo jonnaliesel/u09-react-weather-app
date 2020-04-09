@@ -7,7 +7,7 @@ export default function convertTime(timestamp, options){
       };
  */
 
- console.log(timestamp);
+//  console.log(timestamp);
  /* console.log(options); */
 
     // return new Date(timestamp*1000).toLocaleTimeString("sv-SE")

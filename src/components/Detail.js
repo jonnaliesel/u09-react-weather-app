@@ -2,7 +2,7 @@ import React from 'react';
 import Temperature from './Temperature';
 
 function Detail(props) {
-  console.log('Detail props', props);
+//   console.log('Detail props', props);
 
   const { main, weather } = props.weather;
 

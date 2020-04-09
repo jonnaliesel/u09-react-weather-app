@@ -18,8 +18,8 @@ const weekdayStyle = {
 };
 
 const DayForecast = (props) => {
-  console.log("DayForecast props: ",props);
-/*
+ /*  console.log("DayForecast props: ",props); */
+
   const { weatherData, tempUnit } = props;
 
   let dayDateOptions = {
@@ -28,22 +28,34 @@ const DayForecast = (props) => {
   };
 
   const dayTempList = [];
+  // for (let [index, value] of weatherData.list.entries()) {
+  for(let i = 0; i <= 8 ; i++){
+    dayTempList.push(weatherData[i]);
 
-  for (let [index, value] of weatherData.list.entries()) {
-    dayTempList.push({ index, value });
-    //   console.log(dayTempList[index].value.dt_txt);
-    if (index > 7) {
-      break;
-    }
   }
- */
+  console.log(dayTempList);
+
+    /*  */
+    //   console.log(dayTempList[index].value.dt_txt);
+    // if (index > 7) {
+    //   break;
+    // }
+
+/* console.log("daytemp: ",dayTempList); */
+
   return (
     <div>
       <h3>24h Forecast</h3>
- {/*
+
       <div className='dayTempContainer' style={dayTempContainerStyle}>
-        {dayTempList.map((temp) => (
-          <div key={temp.value.dt} style={dayContainerStyle}>
+        {dayTempList.forEach((day) => (
+          <li>banan</li>
+
+        ))}
+{/*          {dayTempList.map((temp) => (
+          <div>{temp.dt}</div>
+
+          <div key={temp.dt} style={dayContainerStyle}>
             Weekday
             <div className='weekday' style={weekdayStyle}>
               För svenska 'sv-SE'
@@ -58,7 +70,7 @@ const DayForecast = (props) => {
               )}
             </div>
 
-            Weather Icon
+             Weather Icon
             {temp.value.weather.map((weatherType) => (
               <div key={Math.random() * 99999}>
                 <img
@@ -70,14 +82,14 @@ const DayForecast = (props) => {
               </div>
             ))}
 
-            <div className='dayTemp'>
+             <div className='dayTemp'>
               {Math.round(temp.value.main.temp)}
               {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
-       */}
+
     </div>
   );
 };

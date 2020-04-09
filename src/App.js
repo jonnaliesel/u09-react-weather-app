@@ -18,6 +18,7 @@ class App extends Component {
       isLoaded: false,
       currentCity: 'Stockholm',
       tempUnit: 'metric',
+      speedUnit: 'metric',
       forecast: {},
       today: {},
     };
@@ -55,7 +56,7 @@ class App extends Component {
           });
           // console.log("Forecast state: ",res.list);
 
-          console.log('Fetched forecast for:', this.state.currentCity);
+         /*  console.log('Fetched forecast for:', this.state.currentCity); */
         },
         // catch error
         (err) => this.setState({ error: err, isLoaded: true })
@@ -81,7 +82,7 @@ class App extends Component {
             today: res,
             isLoaded: true,
           });
-          console.log('Fetched weather for:', this.state.currentCity);
+         /*  console.log('Fetched weather for:', this.state.currentCity); */
         },
         // catch error
         (err) => this.setState({ error: err, isLoaded: true })
@@ -89,7 +90,7 @@ class App extends Component {
   }
 
   render() {
-    const { forecast, today, tempUnit } = this.state;
+    const { forecast, today, tempUnit, speedUnit } = this.state;
     const { error, isLoaded /*weatherData*/ } = this.state;
 
     if (error) {
@@ -102,8 +103,8 @@ class App extends Component {
           {/* <Detail temp={temp} /> */}
           <Forecast forecast={forecast} tempUnit={tempUnit} />
           <Temperature temp={today.main.temp} tempUnit={tempUnit} />
-          <Detail weather={today} tempUnit={tempUnit}/>
-          <Wind wind={today.wind} />
+          <Detail weather={today} tempUnit={tempUnit} />
+          <Wind wind={today.wind} speedUnit={speedUnit} />
           <SunAndMoon time={today.sys} />
         </div>
       );

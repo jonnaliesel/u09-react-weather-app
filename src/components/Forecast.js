@@ -4,7 +4,7 @@ import DayForecast from './DayForecast';
 
 
 function Forecast(props) {
-  console.log("Forecast props: ", props);
+  // console.log("Forecast props: ", props);
 
 
   return (
