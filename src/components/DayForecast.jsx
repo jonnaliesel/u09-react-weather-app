@@ -1,6 +1,8 @@
 import React from 'react';
+import convertTime from './ConvertTime';
+import convertWeekday from './ConvertWeekday';
 
-const dayTempContainerStyle = {
+const daysContainerStyle = {
   display: 'flex',
   justifyContent: 'center',
 };
@@ -13,83 +15,61 @@ const dayContainerStyle = {
   textTransform: 'capitalize',
 };
 
-const weekdayStyle = {
-  // padding: '.5rem',
-};
-
 const DayForecast = (props) => {
- /*  console.log("DayForecast props: ",props); */
+  /*  console.log("DayForecast props: ",props); */
 
   const { weatherData, tempUnit } = props;
+  const dayTempList = [];
 
-  let dayDateOptions = {
+  const timeOptions = {
     hour: 'numeric',
     minute: 'numeric',
   };
 
-  const dayTempList = [];
-  // for (let [index, value] of weatherData.list.entries()) {
-  for(let i = 0; i <= 8 ; i++){
-    dayTempList.push(weatherData[i]);
-
+  // If the prop has received data push the first nine objects to array
+  if (weatherData.length > 1) {
+    console.log(weatherData);
+    for (let i = 0; i < 9; i++) {
+      dayTempList.push(weatherData[i]);
+    }
   }
-  console.log(dayTempList);
-
-    /*  */
-    //   console.log(dayTempList[index].value.dt_txt);
-    // if (index > 7) {
-    //   break;
-    // }
-
-/* console.log("daytemp: ",dayTempList); */
 
   return (
-    <div>
+    <div className='dayForecastContainer'>
       <h3>24h Forecast</h3>
 
-      <div className='dayTempContainer' style={dayTempContainerStyle}>
-        {dayTempList.forEach((day) => (
-          <li>banan</li>
-
-        ))}
-{/*          {dayTempList.map((temp) => (
-          <div>{temp.dt}</div>
-
-          <div key={temp.dt} style={dayContainerStyle}>
-            Weekday
-            <div className='weekday' style={weekdayStyle}>
-              För svenska 'sv-SE'
-              {Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(
-                temp.value.dt * 1000
-              )}
+      <div className='daysContainer' style={daysContainerStyle}>
+        {/* Loop each 3hour timestamp */}
+        {dayTempList.map((temp) => (
+          <div className="dayContainer" key={temp.dt} style={dayContainerStyle}>
+            {/* Weekday String*/}
+            <div className='weekday'>
+              {convertWeekday(temp.dt, { weekday: 'long' })}
             </div>
-            Timestamp
-            <div className='dayTime'>
-              {Intl.DateTimeFormat('sv-SE', dayDateOptions).format(
-                temp.value.dt * 1000
-              )}
-            </div>
-
-             Weather Icon
-            {temp.value.weather.map((weatherType) => (
-              <div key={Math.random() * 99999}>
+            {/* Timestamp hh:mm */}
+            <div className='dayTime'>{convertTime(temp.dt, timeOptions)}</div>
+            {/* Weather Icon */}
+            {/* In a loop if there are multiple weather types */}
+            {temp.weather.map((weatherType) => (
+              <>
                 <img
                   className='dayWeatherIcon'
                   src={`http://openweathermap.org/img/wn/${weatherType.icon}@2x.png`}
                   alt={weatherType.description}
+                  title={weatherType.description}
+                  key={Math.random() * 99999}
                 />
                 <div>{weatherType.description}</div>
-              </div>
+                </>
             ))}
-
-             <div className='dayTemp'>
-              {Math.round(temp.value.main.temp)}
+            {/* Temperature */}
+            <div className='dayTemp'>
+              {Math.round(temp.main.temp)}
               {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
             </div>
           </div>
-        ))} */}
+        ))}
       </div>
-
     </div>
   );
 };
