@@ -2,6 +2,12 @@ import React from 'react';
 import convertTime from './ConvertTime';
 import convertWeekday from './ConvertWeekday';
 
+const dayForecastContainerStyle = {
+  border: '1px solid',
+  borderRadius: '10px',
+  backgroundColor: 'rgba(120, 120, 120, .25)',
+};
+
 const daysContainerStyle = {
   display: 'flex',
   justifyContent: 'center',
@@ -13,12 +19,14 @@ const dayContainerStyle = {
   margin: '.5rem .25rem',
   padding: '.6rem',
   textTransform: 'capitalize',
+  backgroundColor: 'white',
 };
 
 const DayForecast = (props) => {
-  /*  console.log("DayForecast props: ",props); */
+  console.log('DayForecast props: ', props);
 
-  const { weatherData, tempUnit } = props;
+  const weatherData = props.weatherData.list;
+  const { tempUnit } = props;
   const dayTempList = [];
 
   const timeOptions = {
@@ -35,13 +43,13 @@ const DayForecast = (props) => {
   }
 
   return (
-    <div className='dayForecastContainer'>
+    <div className='dayForecastContainer' style={dayForecastContainerStyle}>
       <h3>24h Forecast</h3>
 
       <div className='daysContainer' style={daysContainerStyle}>
         {/* Loop each 3hour timestamp */}
         {dayTempList.map((temp) => (
-          <div className="dayContainer" key={temp.dt} style={dayContainerStyle}>
+          <div className='dayContainer' key={temp.dt} style={dayContainerStyle}>
             {/* Weekday String*/}
             <div className='weekday'>
               {convertWeekday(temp.dt, { weekday: 'long' })}
@@ -51,16 +59,15 @@ const DayForecast = (props) => {
             {/* Weather Icon */}
             {/* In a loop if there are multiple weather types */}
             {temp.weather.map((weatherType) => (
-              <>
+              <div key={Math.random() * 99999}>
                 <img
                   className='dayWeatherIcon'
                   src={`http://openweathermap.org/img/wn/${weatherType.icon}@2x.png`}
                   alt={weatherType.description}
                   title={weatherType.description}
-                  key={Math.random() * 99999}
                 />
                 <div>{weatherType.description}</div>
-                </>
+              </div>
             ))}
             {/* Temperature */}
             <div className='dayTemp'>

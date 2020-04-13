@@ -1,6 +1,6 @@
 import React from 'react';
 import DayForecast from './DayForecast';
-// import FiveDayForecast from './FiveDayForecast';
+import FiveDayForecast from './FiveDayForecast';
 
 
 function Forecast(props) {
@@ -12,7 +12,7 @@ function Forecast(props) {
       <h2>Forecast</h2>
 
       <DayForecast weatherData={props.forecast} tempUnit={props.tempUnit}/>
-      {/* <FiveDayForecast weatherData={forecast} tempUnit={tempUnit}/> */}
+      <FiveDayForecast weatherData={props.forecast} tempUnit={props.tempUnit}/>
 
 
     </div>

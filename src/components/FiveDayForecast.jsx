@@ -30,8 +30,9 @@ const maxTempStyle = {
 };
 
 const FiveDayForecast = (props) => {
-  const { weatherData, tempUnit } = props;
-
+  const weatherData = props.weatherData.list;
+  const { tempUnit } = props;
+  console.log('five: ', weatherData);
   let dateOptions = {
     weekday: 'long',
     // year: 'numeric',
@@ -42,7 +43,7 @@ const FiveDayForecast = (props) => {
   return (
     <div className='fiveDayList' style={fiveDayStyle}>
       <h3>Five day Forecast</h3>
-      {weatherData.list.map((weatherData) => (
+      {weatherData.map((weatherData) => (
         <div key={weatherData.dt} className='row' style={rowStyle}>
           {/* Timestamp into readable date */}
           <span>
@@ -51,14 +52,15 @@ const FiveDayForecast = (props) => {
               weatherData.dt * 1000
             )}
             {/* Timestamp */}
-            {", " + Intl.DateTimeFormat('sv-SE', {
-              hour: 'numeric',
-              // minute: 'numeric'
-            }).format(weatherData.dt * 1000)}h
+            {', ' +
+              Intl.DateTimeFormat('sv-SE', {
+                hour: 'numeric',
+                // minute: 'numeric'
+              }).format(weatherData.dt * 1000)}
+            h
           </span>
 
           {/* Weather Icon */}
-          {/* <div> */}
           {weatherData.weather.map((weatherType) => (
             <div key={Math.random() * 99999}>
               <img
@@ -67,10 +69,10 @@ const FiveDayForecast = (props) => {
                 alt={weatherType.description}
                 title={weatherType.description}
               />
-              {/* <div>{weatherType.description}</div> */}
+              {/* Weather Icon Description */}
+              <div>{weatherType.description}</div>
             </div>
           ))}
-          {/* </div> */}
 
           {/* Temperature */}
           {/* Min Temperature */}
