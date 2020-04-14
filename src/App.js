@@ -5,7 +5,7 @@ import Forecast from './components/Forecast';
 import Temperature from './components/Temperature';
 import Wind from './components/Wind';
 import SunAndMoon from './components/SunAndMoon';
-import LocationInput from './components/LocationInput'
+import LocationInput from './components/LocationInput/LocationInput'
 
 import './App.css';
 
@@ -17,7 +17,7 @@ class App extends Component {
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleCitySubmit = this.handleCitySubmit.bind(this);
 
-    
+
 
     this.state = {
       error: null,
@@ -43,15 +43,15 @@ class App extends Component {
 
   handleCitySubmit = (event) => {
     let prevState = this.state;
-    if(prevState.currentCity !== this.city){
-      this.setState({currentCity : this.city}, () => {
+    if (prevState.currentCity !== this.city) {
+      this.setState({ currentCity: this.city }, () => {
         this.getForecastAndWeather()
       })
-      
-  }
+
+    }
     event.preventDefault();
   }
-  
+
   /* componentDidUpdate(prevState) {
     if(prevState.currentCity !== this.state.currentCity){
       this.getForecastAndWeather();
@@ -73,7 +73,7 @@ class App extends Component {
     // console.log('Forecast: ', forecast);
     // console.log('weather: ', weather);
 
-    
+
     // }
     // );
   }
@@ -88,9 +88,14 @@ class App extends Component {
           today: weather,
           isLoaded: true,
         });
+        console.log('Fetched 5-day forecast for:', this.state.currentCity);
       }
+    ) // Catch error
+      .catch(error => {
+        this.setState({ error: error, isLoaded: true });
+      }
+
       )
-      console.log('Fetched 5-day forecast for:', this.state.currentCity);
   }
 
 
@@ -149,24 +154,29 @@ class App extends Component {
         // catch error
         (err) => this.setState({ error: err, isLoaded: true })
       ); */
-  }
+  } 
 
   render() {
     const { forecast, today, tempUnit, speedUnit } = this.state;
-    const { error, isLoaded /*weatherData*/ } = this.state;
+    const { error, isLoaded, currentCity } = this.state;
     // console.log(this.state);
 
-    if (error) {
-      return <div>Something went wrong: {error.message}</div>;
+     if (error) {
+      return (
+        <div>
+        <div>Something went wrong: {error.message}</div>
+        <button type="button" onClick={() => window.location.reload()}>Try again</button>
+        </div>
+        );
+      
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
       return (
         <div className='App'>
           {/* <Detail temp={temp} /> */}
-          <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} />
-          <p>{this.state.currentCity}</p>
-          <Forecast forecast={forecast} tempUnit={tempUnit} />
+          <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} error={this.state.error} />
+          <Forecast currentCity={currentCity} forecast={forecast} tempUnit={tempUnit} />
           <Temperature temp={today.main.temp} tempUnit={tempUnit} />
           <Detail weather={today} tempUnit={tempUnit} />
           <Wind wind={today.wind} speedUnit={speedUnit} />

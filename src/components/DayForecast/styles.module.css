@@ -1,0 +1,21 @@
+
+.dayForecastContainer {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: rgba(120, 120, 120, .25);
+  margin-bottom: 1rem;
+}
+
+.daysContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.dayContainer {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: .5rem .25rem;
+  padding: .6rem;
+  text-transform: capitalize;
+  background-color: white;
+}
