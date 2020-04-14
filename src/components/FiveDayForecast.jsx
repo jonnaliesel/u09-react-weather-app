@@ -32,7 +32,7 @@ const maxTempStyle = {
 const FiveDayForecast = (props) => {
   const weatherData = props.weatherData.list;
   const { tempUnit } = props;
-  console.log('five: ', weatherData);
+  // console.log('five: ', weatherData);
   let dateOptions = {
     weekday: 'long',
     // year: 'numeric',

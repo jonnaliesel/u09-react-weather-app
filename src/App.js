@@ -11,11 +11,14 @@ import './App.css';
 
 class App extends Component {
   apiKey = '47191cd2411b39bd47c91b1dfe204dd6';
-
+  city = '';
   constructor() {
     super();
+    this.handleCityChange = this.handleCityChange.bind(this);
     this.handleCitySubmit = this.handleCitySubmit.bind(this);
+
     
+
     this.state = {
       error: null,
       isLoaded: false,
@@ -33,22 +36,51 @@ class App extends Component {
     no need to use units parameter in API call
   */
 
- handleCityChange = (event) => {
-  this.setState({currentCity: event.target.value});
+  handleCityChange = (event) => {
+    this.city = event.target.value;
+
+  }
+
+  handleCitySubmit = (event) => {
+    let prevState = this.state;
+    if(prevState.currentCity !== this.city){
+      this.setState({currentCity : this.city}, () => {
+        this.getForecastAndWeather()
+      })
+      
+  }
+    event.preventDefault();
+  }
   
-}
-
-
- handleCitySubmit = (event) =>  {
-  console.log("updated state to: CurrentCity: " +  this.state.currentCity)
-  event.preventDefault();
-}
-
+  /* componentDidUpdate(prevState) {
+    if(prevState.currentCity !== this.state.currentCity){
+      this.getForecastAndWeather();
+    } 
+  } */
 
 
   componentDidMount() {
     // When components mount run both fetches and wait for response
-    this.getForecastAndWeather().then(
+    this.getForecastAndWeather()
+    /* .then(
+      // load the results.json into state
+      ([forecast, weather]) => {
+        this.setState({
+          forecast: forecast,
+          today: weather,
+          isLoaded: true,
+        }); */
+    // console.log('Forecast: ', forecast);
+    // console.log('weather: ', weather);
+
+    
+    // }
+    // );
+  }
+
+  // Wait until both fetches return a response
+  getForecastAndWeather() {
+    Promise.all([this.getForecast(), this.getWeather()]).then(
       // load the results.json into state
       ([forecast, weather]) => {
         this.setState({
@@ -56,20 +88,12 @@ class App extends Component {
           today: weather,
           isLoaded: true,
         });
-        // console.log('Forecast: ', forecast);
-        // console.log('weather: ', weather);
-
-        console.log('Fetched 5-day forecast for:', this.state.currentCity);
-      },
-      // catch error
-      (err) => this.setState({ error: err, isLoaded: true })
-    );
+      }
+      )
+      console.log('Fetched 5-day forecast for:', this.state.currentCity);
   }
 
-  // Wait until both fetches return a response
-  getForecastAndWeather() {
-    return Promise.all([this.getForecast(), this.getWeather()]);
-  }
+
 
   getForecast() {
     return fetch(
@@ -81,7 +105,9 @@ class App extends Component {
       } else {
         throw new Error(`${res.status} ${res.statusText}`);
       }
-    });
+    },
+      // catch error
+      (err) => this.setState({ error: err, isLoaded: true }));
     /* .then(
         // load the results.json into state
         (res) => {
@@ -108,7 +134,9 @@ class App extends Component {
       } else {
         throw new Error(`${res.status} ${res.statusText}`);
       }
-    });
+    },
+      // catch error
+      (err) => this.setState({ error: err, isLoaded: true }));
     /*       .then(
         // load the results.json into state
         (res) => {
