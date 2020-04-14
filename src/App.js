@@ -35,7 +35,7 @@ class App extends Component {
 
  handleCityChange = (event) => {
   this.setState({currentCity: event.target.value});
-  console.log(event.target.value);
+  
 }
 
 
@@ -136,7 +136,7 @@ class App extends Component {
       return (
         <div className='App'>
           {/* <Detail temp={temp} /> */}
-          <LocationInput handleCitySubmit={this.handleCityChange} />
+          <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} />
           <p>{this.state.currentCity}</p>
           <Forecast forecast={forecast} tempUnit={tempUnit} />
           <Temperature temp={today.main.temp} tempUnit={tempUnit} />
