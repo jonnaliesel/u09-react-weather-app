@@ -5,6 +5,7 @@ import Forecast from './components/Forecast';
 import Temperature from './components/Temperature';
 import Wind from './components/Wind';
 import SunAndMoon from './components/SunAndMoon';
+import LocationInput from './components/LocationInput'
 
 import './App.css';
 
@@ -13,6 +14,8 @@ class App extends Component {
 
   constructor() {
     super();
+    this.handleCitySubmit = this.handleCitySubmit.bind(this);
+    
     this.state = {
       error: null,
       isLoaded: false,
@@ -29,6 +32,19 @@ class App extends Component {
     Temperature in Kelvin is used by default,
     no need to use units parameter in API call
   */
+
+ handleCityChange = (event) => {
+  this.setState({currentCity: event.target.value});
+  console.log(event.target.value);
+}
+
+
+ handleCitySubmit = (event) =>  {
+  console.log("updated state to: CurrentCity: " +  this.state.currentCity)
+  event.preventDefault();
+}
+
+
 
   componentDidMount() {
     // When components mount run both fetches and wait for response
@@ -120,6 +136,8 @@ class App extends Component {
       return (
         <div className='App'>
           {/* <Detail temp={temp} /> */}
+          <LocationInput handleCitySubmit={this.handleCityChange} />
+          <p>{this.state.currentCity}</p>
           <Forecast forecast={forecast} tempUnit={tempUnit} />
           <Temperature temp={today.main.temp} tempUnit={tempUnit} />
           <Detail weather={today} tempUnit={tempUnit} />
