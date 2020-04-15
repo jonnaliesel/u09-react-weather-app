@@ -4,8 +4,6 @@ import { faMapPin } from '@fortawesome/free-solid-svg-icons'
 import styles from './styles.module.css';
 
 const LocationInput = (props) => {
-    console.log(styles);
-
     return (
         <div className="locationInput">
             <form className={styles.form} onSubmit={props.handleCitySubmit}>

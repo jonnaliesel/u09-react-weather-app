@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 // Components
-import Detail from './components/Detail';
+import Detail from './components/Detail/Detail';
 
 // import Forecast from './components/Forecast';
 import FiveDayForecast from './components/FiveDayForecast/FiveDayForecast';
 import DayForecast from './components/DayForecast/DayForecast';
 import MainTemperatureDisplay from './components/MainTemperatureDisplay/MainTemperatureDisplay';
-import Wind from './components/Wind';
+import Wind from './components/Wind/Wind';
 import SunAndMoon from './components/SunAndMoon/SunAndMoon';
 import LocationInput from './components/LocationInput/LocationInput'
 

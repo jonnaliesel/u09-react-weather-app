@@ -5,8 +5,8 @@ import convertWeekday from '../../functions/ConvertWeekday';
 
 import styles from './styles.module.css';
 
-console.log("dateStyle ", styles);
-
+// imports global styles used on top level div
+import '../../App.css'
 
 /* const dayForecastContainerStyle = {
   border: '1px solid',
@@ -48,7 +48,7 @@ const DayForecast = (props) => {
     }
 
     return (
-      <div className={styles.dayForecastContainer}>
+      <div className="componentContainer">
         <h3>24h Forecast</h3>
 
         <div className={styles.daysContainer}>

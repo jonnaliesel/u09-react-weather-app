@@ -1,5 +1,10 @@
 import React from 'react';
+
+//imports Component-specific styles
 import styles from './FiveDay.module.css';
+
+// imports global styles used on top level div
+import '../../App.css'
 
 const FiveDayForecast = (props) => {
   const weatherData = props.weatherData.list;
@@ -14,7 +19,7 @@ const FiveDayForecast = (props) => {
   };
 
   return (
-    <div className={styles.FiveDayContainer}>
+    <div className="componentContainer">
       <h3>Five day Forecast</h3>
       {weatherData.map((weatherData) => (
         <div key={weatherData.dt} className={styles.row}>
