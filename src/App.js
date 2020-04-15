@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-// import Api from './Api';
+import ReactDOM from 'react-dom';
+
+// Components
 import Detail from './components/Detail';
-import Forecast from './components/Forecast';
-import Temperature from './components/Temperature';
+
+// import Forecast from './components/Forecast';
+import FiveDayForecast from './components/FiveDayForecast/FiveDayForecast';
+import DayForecast from './components/DayForecast/DayForecast';
+import MainTemperatureDisplay from './components/MainTemperatureDisplay/MainTemperatureDisplay';
 import Wind from './components/Wind';
-import SunAndMoon from './components/SunAndMoon';
+import SunAndMoon from './components/SunAndMoon/SunAndMoon';
 import LocationInput from './components/LocationInput/LocationInput'
+
+// Functions
+/* import resizeAllGridItems from './functions/resizeAllGridItems'; */
 
 import './App.css';
 
@@ -61,7 +69,7 @@ class App extends Component {
 
   componentDidMount() {
     // When components mount run both fetches and wait for response
-    this.getForecastAndWeather()
+    this.getForecastAndWeather();
     /* .then(
       // load the results.json into state
       ([forecast, weather]) => {
@@ -97,8 +105,6 @@ class App extends Component {
 
       )
   }
-
-
 
   getForecast() {
     return fetch(
@@ -174,13 +180,16 @@ class App extends Component {
     } else {
       return (
         <div className='App'>
-          {/* <Detail temp={temp} /> */}
-          <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} error={this.state.error} />
-          <Forecast currentCity={currentCity} forecast={forecast} tempUnit={tempUnit} />
-          <Temperature temp={today.main.temp} tempUnit={tempUnit} />
-          <Detail weather={today} tempUnit={tempUnit} />
-          <Wind wind={today.wind} speedUnit={speedUnit} />
-          <SunAndMoon time={today.sys} />
+            <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} error={this.state.error} />
+            <MainTemperatureDisplay city={currentCity} temp={today.main.temp} tempUnit={tempUnit} icon={today.weather[0].icon}/>
+          <div className="container grid">
+            <Detail weather={today} tempUnit={tempUnit} />
+            <Wind wind={today.wind} speedUnit={speedUnit} />
+            <SunAndMoon time={today.sys} />
+            {/* <Forecast currentCity={currentCity} forecast={forecast} tempUnit={tempUnit} /> */}
+            <DayForecast weatherData={forecast} tempUnit={tempUnit} />
+            <FiveDayForecast weatherData={forecast} tempUnit={tempUnit}/>
+          </div>
         </div>
       );
     }

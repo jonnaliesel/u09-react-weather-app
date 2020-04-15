@@ -8,7 +8,7 @@ function Forecast(props) {
 
 
   return (
-    <div className='forecast'>
+    <div className='forecast item'>
       <h2>Forecast {props.currentCity}</h2>
 
       <DayForecast weatherData={props.forecast} tempUnit={props.tempUnit}/>

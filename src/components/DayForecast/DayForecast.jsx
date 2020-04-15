@@ -1,6 +1,8 @@
 import React from 'react';
-import convertTime from '../ConvertTime';
-import convertWeekday from '../ConvertWeekday';
+
+import convertTime from '../../functions/ConvertTime';
+import convertWeekday from '../../functions/ConvertWeekday';
+
 import styles from './styles.module.css';
 
 console.log("dateStyle ", styles);
@@ -55,7 +57,7 @@ const DayForecast = (props) => {
             <div className={styles.dayContainer} key={temp.dt}>
               {/* Weekday String*/}
               <div className='weekday'>
-                {convertWeekday(temp.dt, { weekday: 'long' })}
+                {convertWeekday(temp.dt, { weekday: 'long' }).slice(0,3)}
               </div>
               {/* Timestamp hh:mm */}
               <div className='dayTime'>{convertTime(temp.dt, timeOptions)}</div>
@@ -69,7 +71,7 @@ const DayForecast = (props) => {
                     alt={weatherType.description}
                     title={weatherType.description}
                   />
-                  <div>{weatherType.description}</div>
+                  {/* <div>{weatherType.description}</div> */}
                 </div>
               ))}
               {/* Temperature */}

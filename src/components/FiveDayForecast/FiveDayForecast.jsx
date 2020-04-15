@@ -19,7 +19,7 @@ const FiveDayForecast = (props) => {
       {weatherData.map((weatherData) => (
         <div key={weatherData.dt} className={styles.row}>
           {/* Timestamp into readable date */}
-          <span>
+          <span className={styles.textLeft}>
             {/* För svenska 'sv-SE' */}
             {Intl.DateTimeFormat('en-US', dateOptions).format(
               weatherData.dt * 1000
@@ -43,20 +43,22 @@ const FiveDayForecast = (props) => {
                 title={weatherType.description}
               />
               {/* Weather Icon Description */}
-              <div>{weatherType.description}</div>
+              {/* <div>{weatherType.description}</div> */}
             </div>
           ))}
 
           {/* Temperature */}
           {/* Min Temperature */}
-          <span className={styles.minTemp} >
-            {'⬇' + Math.round(weatherData.main.temp_min)}
-            {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
-
-            {/* Max Temperature */}
-            <span className={styles.maxTemp} >
-              &nbsp; {'⬆' + Math.round(weatherData.main.temp_max)}
+          <span className={styles.textRight} >
+            <span className={styles.minTemp} >
+              {'⬇' + Math.round(weatherData.main.temp_min)}
               {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
+
+              {/* Max Temperature */}
+              <span className={styles.maxTemp} >
+                &nbsp; {'⬆' + Math.round(weatherData.main.temp_max)}
+                {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
+              </span>
             </span>
           </span>
         </div>

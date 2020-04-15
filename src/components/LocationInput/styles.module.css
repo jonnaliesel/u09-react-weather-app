@@ -1,18 +1,11 @@
-
-* {
-    box-sizing: border-box;
-}
-
-.form {
-    margin: 10px auto;
-}
-
 .label {
     display:inline-block;
     
 }
 
-
+.form {
+    padding-top: 40px;
+}
 
 .input {
     width: 30%;
