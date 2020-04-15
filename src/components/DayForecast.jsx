@@ -23,7 +23,7 @@ const dayContainerStyle = {
 };
 
 const DayForecast = (props) => {
-  console.log('DayForecast props: ', props);
+  // console.log('DayForecast props: ', props);
 
   const weatherData = props.weatherData.list;
   const { tempUnit } = props;
@@ -36,7 +36,7 @@ const DayForecast = (props) => {
 
   // If the prop has received data push the first nine objects to array
   if (weatherData.length > 1) {
-    console.log(weatherData);
+    // console.log(weatherData);
     for (let i = 0; i < 9; i++) {
       dayTempList.push(weatherData[i]);
     }
