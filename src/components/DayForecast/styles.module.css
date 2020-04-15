@@ -2,7 +2,7 @@
 .dayForecastContainer {
   border: 1px solid black;
   border-radius: 10px;
-  background-color: rgba(120, 120, 120, .25);
+  background-color: rgba(33, 47, 59, 0.5);
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1rem;

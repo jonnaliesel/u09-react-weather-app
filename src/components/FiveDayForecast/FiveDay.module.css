@@ -11,6 +11,7 @@
     border: 1px solid gray;
     border-radius: 10px;
     text-transform: capitalize;
+    background-color: rgba(33, 47, 59, 0.5);
 }
     
 .row {
