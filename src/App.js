@@ -19,10 +19,12 @@ import './App.css';
 class App extends Component {
   apiKey = '47191cd2411b39bd47c91b1dfe204dd6';
   city = '';
+  
   constructor() {
     super();
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleCitySubmit = this.handleCitySubmit.bind(this);
+    this.handleSetTempUnitSubmit = this.handleSetTempUnitSubmit.bind(this);
 
 
 
@@ -57,6 +59,11 @@ class App extends Component {
 
     }
     event.preventDefault();
+  }
+
+  handleSetTempUnitSubmit = (event) => {
+    event.preventDefault();
+    console.log(event.tempUnit);
   }
 
   /* componentDidUpdate(prevState) {
@@ -180,7 +187,13 @@ class App extends Component {
       return (
         <div className='App'>
             <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} error={this.state.error} />
-            <MainTemperatureDisplay city={currentCity} temp={today.main.temp} tempUnit={tempUnit} icon={today.weather[0].icon}/>
+            <MainTemperatureDisplay 
+              city={currentCity} 
+              temp={today.main.temp} 
+              tempUnit={tempUnit} 
+              icon={today.weather[0].icon}
+              handleSetTempUnitSubmit={this.handleSetTempUnitSubmit}
+            />
           <div className="container grid">
             <Detail weather={today} tempUnit={tempUnit} />
             <Wind wind={today.wind} speedUnit={speedUnit} />
