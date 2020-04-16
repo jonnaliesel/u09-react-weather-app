@@ -6,6 +6,7 @@ import Temperature from './components/Temperature';
 import Wind from './components/Wind';
 import SunAndMoon from './components/SunAndMoon';
 import LocationInput from './components/LocationInput'
+import Location from './components/Location'
 
 import './App.css';
 
@@ -16,7 +17,7 @@ class App extends Component {
     super();
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleCitySubmit = this.handleCitySubmit.bind(this);
-
+    this.getLocation = this.getLocation.bind(this);
     
 
     this.state = {
@@ -27,6 +28,9 @@ class App extends Component {
       speedUnit: 'metric',
       forecast: {},
       today: {},
+      latitude: '',
+      longitude: '',
+      searchMyLocation: 'no'
     };
   }
   /* tempUnit
@@ -51,6 +55,44 @@ class App extends Component {
   }
     event.preventDefault();
   }
+
+
+ showLocation(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+
+  () => {
+    let prevState = this.state;
+    if(prevState.latitude !== this.latitude && prevState.longitude !== this.longitude){
+      this.setState({latitude: this.latitude,
+                     longitude: this.longitude,
+                     searchMyLocation: 'yes' }, 
+                     () => {this.getForecastAndWeather()
+      })
+    }
+  }
+}
+
+ errorHandler(err) {
+  if(err.code == 1) {
+     alert("Error: Access is denied!");
+  } else if( err.code == 2) {
+     alert("Error: Position is unavailable!");
+  }
+}
+  
+ getLocation() {
+
+  if(navigator.geolocation) {
+     // timeout at 60000 milliseconds (60 seconds)
+     var options = {timeout:60000};
+     navigator.geolocation.getCurrentPosition(this.showLocation, this.errorHandler, options);
+  } 
+  else {
+     alert("Sorry, browser does not support geolocation!");
+  }
+
+}
   
   /* componentDidUpdate(prevState) {
     if(prevState.currentCity !== this.state.currentCity){
@@ -96,9 +138,16 @@ class App extends Component {
 
 
   getForecast() {
-    return fetch(
+    
+      if(this.state.searchMyLocation=='yes'){
+        return fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat={this.state.latitude}&lon={this.state.longitude}&appid={this.apiKey}`
+        )} 
+      else{
+        return fetch(
       `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
-    ).then((res) => {
+        )}
+    .then((res) => {
       // check if we get an ok response else throw an error
       if (res.ok) {
         return res.json();
@@ -125,9 +174,16 @@ class App extends Component {
   }
 
   getWeather() {
-    return fetch(
+    
+      if(this.state.searchMyLocation=='yes'){
+        return fetch( 
+        `https://api.openweathermap.org/data/2.5/weather?lat={this.state.latitude}&lon={this.state.longitude}&appid={this.apiKey}`
+        )} 
+      else{
+      return fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
-    ).then((res) => {
+      )}
+    .then((res) => {
       // check if we get an ok response else throw an error
       if (res.ok) {
         return res.json();
@@ -135,20 +191,9 @@ class App extends Component {
         throw new Error(`${res.status} ${res.statusText}`);
       }
     },
-      // catch error
+   
       (err) => this.setState({ error: err, isLoaded: true }));
-    /*       .then(
-        // load the results.json into state
-        (res) => {
-          this.setState({
-            today: res,
-            isLoaded: true,
-          });
-          console.log('Fetched todays weather for:', this.state.currentCity);
-        },
-        // catch error
-        (err) => this.setState({ error: err, isLoaded: true })
-      ); */
+
   }
 
   render() {
@@ -166,6 +211,7 @@ class App extends Component {
           {/* <Detail temp={temp} /> */}
           <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} />
           <p>{this.state.currentCity}</p>
+          <Location />
           <Forecast forecast={forecast} tempUnit={tempUnit} />
           <Temperature temp={today.main.temp} tempUnit={tempUnit} />
           <Detail weather={today} tempUnit={tempUnit} />
