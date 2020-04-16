@@ -9,7 +9,7 @@ import DayForecast from './components/DayForecast/DayForecast';
 import MainTemperatureDisplay from './components/MainTemperatureDisplay/MainTemperatureDisplay';
 import Wind from './components/Wind/Wind';
 import SunAndMoon from './components/SunAndMoon/SunAndMoon';
-import LocationInput from './components/LocationInput/LocationInput'
+import LocationInput from './components/LocationInput/LocationInput';
 
 // Functions
 /* import resizeAllGridItems from './functions/resizeAllGridItems'; */
@@ -24,7 +24,7 @@ class App extends Component {
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleCitySubmit = this.handleCitySubmit.bind(this);
     this.getLocation = this.getLocation.bind(this);
-
+    this.showLocation = this.showLocation.bind(this);
 
     this.state = {
       error: null,
@@ -36,7 +36,7 @@ class App extends Component {
       today: {},
       latitude: '',
       longitude: '',
-      searchMyLocation: 'no'
+      searchMyLocation: false,
     };
   }
   /* tempUnit
@@ -48,161 +48,159 @@ class App extends Component {
 
   handleCityChange = (event) => {
     this.city = event.target.value;
-
-  }
+  };
 
   handleCitySubmit = (event) => {
     let prevState = this.state;
     if (prevState.currentCity !== this.city) {
       this.setState({ currentCity: this.city }, () => {
-        this.getForecastAndWeather()
-      })
-
+        this.getForecastAndWeather();
+      });
     }
     event.preventDefault();
-  }
+  };
 
+  showLocation(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    console.log(position);
 
- showLocation(position) {
-  var latitude = position.coords.latitude;
-  var longitude = position.coords.longitude;
-
-  () => {
     let prevState = this.state;
-    if(prevState.latitude !== this.latitude && prevState.longitude !== this.longitude){
-      this.setState({latitude: this.latitude,
-                     longitude: this.longitude,
-                     searchMyLocation: 'yes' },
-                     () => {this.getForecastAndWeather()
-      })
+    if (prevState.latitude !== latitude && prevState.longitude !== longitude) {
+      this.setState(
+        {
+          latitude: latitude,
+          longitude: longitude,
+          searchMyLocation: true,
+        },
+        () => {
+          console.log("från showLocation:" ,this.state)
+          this.getForecastAndWeather();
+        }
+      );
     }
   }
-}
 
- errorHandler(err) {
-  if(err.code == 1) {
-     alert("Error: Access is denied!");
-  } else if( err.code == 2) {
-     alert("Error: Position is unavailable!");
-  }
-}
-
- getLocation() {
-
-  if(navigator.geolocation) {
-     // timeout at 60000 milliseconds (60 seconds)
-     var options = {timeout:60000};
-     navigator.geolocation.getCurrentPosition(this.showLocation, this.errorHandler, options);
-  }
-  else {
-     alert("Sorry, browser does not support geolocation!");
-  }
-
-}
-
-  /* componentDidUpdate(prevState) {
-    if(prevState.currentCity !== this.state.currentCity){
-      this.getForecastAndWeather();
+  errorHandler(err) {
+    if (err.code === 1) {
+      alert('Error: Access is denied!');
+    } else if (err.code === 2) {
+      alert('Error: Position is unavailable!');
     }
-  } */
+  }
 
+  getLocation() {
+    console.log("clicked getLocation button", this.state);
+
+    if (navigator.geolocation) {
+      // timeout at 60000 milliseconds (60 seconds)
+      var options = { timeout: 60000, /* enableHighAccuracy: true */ };
+
+      navigator.geolocation.getCurrentPosition(
+        this.showLocation,
+        this.errorHandler,
+        options
+      )
+
+    } else {
+      alert('Sorry, browser does not support geolocation!');
+    }
+  }
 
   componentDidMount() {
     // When components mount run both fetches and wait for response
+    this.getLocation();
     this.getForecastAndWeather();
-    /* .then(
-      // load the results.json into state
-      ([forecast, weather]) => {
-        this.setState({
-          forecast: forecast,
-          today: weather,
-          isLoaded: true,
-        }); */
-    // console.log('Forecast: ', forecast);
-    // console.log('weather: ', weather);
-
-
-    // }
-    // );
   }
 
   // Wait until both fetches return a response
   getForecastAndWeather() {
-    Promise.all([this.getForecast(), this.getWeather()]).then(
-      // load the results.json into state
-      ([forecast, weather]) => {
-        this.setState({
-          forecast: forecast,
-          today: weather,
-          isLoaded: true,
-        });
-        console.log('Fetched 5-day forecast for:', this.state.currentCity);
-      }
-    ) // Catch error
-      .catch(error => {
+    Promise.all([this.getForecast(), this.getWeather()])
+      .then(
+        // load the results.json into state
+        ([forecast, weather]) => {
+          console.log('forecast data:', forecast);
+          this.setState({
+            forecast: forecast,
+            today: weather,
+            isLoaded: true,
+            currentCity: forecast.city.name ? forecast.city.name : this.state.currentCity,
+            searchMyLocation: false
+          });
+          console.log('Fetched 5-day forecast for:', this.state.currentCity);
+        }
+      ) // Catch error
+      .catch((error) => {
         this.setState({ error: error, isLoaded: true });
-      }
-
-      )
+      });
   }
 
   getForecast() {
-
-      if(this.state.searchMyLocation=='yes'){
-        return fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat={this.state.latitude}&lon={this.state.longitude}&appid={this.apiKey}`
-        )}
-      else{
-        return fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
-        )}
-    .then((res) => {
-      // check if we get an ok response else throw an error
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(`${res.status} ${res.statusText}`);
-      }
-    },
-      // catch error
-      (err) => this.setState({ error: err, isLoaded: true }));
-    /* .then(
-        // load the results.json into state
+    if (this.state.searchMyLocation === true) {
+      return fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${this.state.latitude}&lon=${this.state.longitude}&units=${this.state.tempUnit}&appid=${this.apiKey}`
+      ).then(
         (res) => {
-          this.setState({
-            forecast: res.list,
-            isLoaded: true,
-          });
-          // console.log("Forecast state: ",res.list);
-
-          console.log('Fetched 5-day forecast for:', this.state.currentCity);
+          // check if we get an ok response else throw an error
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error(`${res.status} ${res.statusText}`);
+          }
         },
         // catch error
         (err) => this.setState({ error: err, isLoaded: true })
-      ); */
+      );
+    } else {
+      return fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
+      ).then(
+        (res) => {
+          // check if we get an ok response else throw an error
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error(`${res.status} ${res.statusText}`);
+          }
+        },
+        // catch error
+        (err) => this.setState({ error: err, isLoaded: true })
+      );
+    }
   }
 
   getWeather() {
-
-      if(this.state.searchMyLocation=='yes'){
-        return fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat={this.state.latitude}&lon={this.state.longitude}&appid={this.apiKey}`
-        )}
-      else{
+    if (this.state.searchMyLocation === true) {
       return fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
-      )}
-    .then((res) => {
-      // check if we get an ok response else throw an error
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(`${res.status} ${res.statusText}`);
-      }
-    },
-
-      (err) => this.setState({ error: err, isLoaded: true }));
-
+        `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.latitude}&lon=${this.state.longitude}&units=${this.state.tempUnit}&appid=${this.apiKey}`
+      ).then(
+        (res) => {
+          // check if we get an ok response else throw an error
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error(`${res.status} ${res.statusText}`);
+          }
+        },
+        // catch error
+        (err) => this.setState({ error: err, isLoaded: true })
+      );
+    } else {
+      return fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
+      ).then(
+        (res) => {
+          // check if we get an ok response else throw an error
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error(`${res.status} ${res.statusText}`);
+          }
+        },
+        // catch error
+        (err) => this.setState({ error: err, isLoaded: true })
+      );
+    }
   }
 
   render() {
@@ -210,28 +208,39 @@ class App extends Component {
     const { error, isLoaded, currentCity } = this.state;
     // console.log(this.state);
 
-     if (error) {
+    if (error) {
       return (
         <div>
-        <div>Something went wrong: {error.message}</div>
-        <button type="button" onClick={() => window.location.reload()}>Try again</button>
+          <div>Something went wrong: {error.message}</div>
+          <button type='button' onClick={() => window.location.reload()}>
+            Try again
+          </button>
         </div>
-        );
-
+      );
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
       return (
         <div className='App'>
-            <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} error={this.state.error} />
-            <MainTemperatureDisplay city={currentCity} temp={today.main.temp} tempUnit={tempUnit} icon={today.weather[0].icon}/>
-          <div className="container grid">
+          <LocationInput
+            handleCitySubmit={this.handleCitySubmit}
+            handleCityChange={this.handleCityChange}
+            getLocation={this.getLocation}
+            error={this.state.error}
+          />
+          <MainTemperatureDisplay
+            city={currentCity}
+            temp={today.main.temp}
+            tempUnit={tempUnit}
+            icon={today.weather[0].icon}
+          />
+          <div className='container grid'>
             <Detail weather={today} tempUnit={tempUnit} />
             <Wind wind={today.wind} speedUnit={speedUnit} />
             <SunAndMoon time={today.sys} />
             {/* <Forecast currentCity={currentCity} forecast={forecast} tempUnit={tempUnit} /> */}
             <DayForecast weatherData={forecast} tempUnit={tempUnit} />
-            <FiveDayForecast weatherData={forecast} tempUnit={tempUnit}/>
+            <FiveDayForecast weatherData={forecast} tempUnit={tempUnit} />
           </div>
         </div>
       );
