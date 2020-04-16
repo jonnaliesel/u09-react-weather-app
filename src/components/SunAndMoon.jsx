@@ -4,8 +4,6 @@ import convertTime from './ConvertTime';
 function SunAndMoon(props) {
   const { sunrise, sunset } = props.time;
 
-//   console.log('sun and moon', props);
-
   const dateOptions = {
     hour: 'numeric',
     minute: 'numeric',
@@ -16,12 +14,9 @@ function SunAndMoon(props) {
 
   return (
     <div>
-      <h3>Sun & Moon</h3>
-      <ul>
-        <li>Sunrise: {sunriseTime} <img src="./../public/assets/dawn.svg" alt="Dawn" /></li>
-        
-        <li>Sunset: {sunsetTime}</li>
-      </ul>
+      <h3>Sun & Moon</h3> 
+      <p>Sunrise: {sunriseTime}</p>
+      <p>Sunset: {sunsetTime}</p>
     </div>
   );
 }
