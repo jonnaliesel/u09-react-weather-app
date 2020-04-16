@@ -61,27 +61,23 @@ class App extends Component {
   };
 
   showLocation(position) {
+    console.log("showLoc start");
+
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-    console.log(position);
 
-    let prevState = this.state;
-    if (prevState.latitude !== latitude && prevState.longitude !== longitude) {
-      this.setState(
-        {
-          latitude: latitude,
-          longitude: longitude,
-          searchMyLocation: true,
-        },
-        () => {
-          console.log("från showLocation:" ,this.state)
-          this.getForecastAndWeather();
-        }
-      );
+      this.setState({
+        latitude: latitude,
+        longitude: longitude,
+        searchMyLocation: true,
+      });
+
+      console.log('från showLocation:', this.state);
+      this.getForecastAndWeather();
     }
-  }
 
-  errorHandler(err) {
+
+  locationErrorHandler(err) {
     if (err.code === 1) {
       alert('Error: Access is denied!');
     } else if (err.code === 2) {
@@ -90,18 +86,16 @@ class App extends Component {
   }
 
   getLocation() {
-    console.log("clicked getLocation button", this.state);
-
+    console.log('clicked getLocation button', this.state);
     if (navigator.geolocation) {
       // timeout at 60000 milliseconds (60 seconds)
-      var options = { timeout: 60000, /* enableHighAccuracy: true */ };
+      var options = { timeout: 60000 /* enableHighAccuracy: true */ };
 
       navigator.geolocation.getCurrentPosition(
         this.showLocation,
-        this.errorHandler,
+        this.locationErrorHandler,
         options
-      )
-
+      );
     } else {
       alert('Sorry, browser does not support geolocation!');
     }
@@ -124,14 +118,17 @@ class App extends Component {
             forecast: forecast,
             today: weather,
             isLoaded: true,
-            currentCity: forecast.city.name ? forecast.city.name : this.state.currentCity,
-            searchMyLocation: false
+            currentCity: forecast.city.name
+              ? forecast.city.name
+              : this.state.currentCity,
+            searchMyLocation: false,
           });
           console.log('Fetched 5-day forecast for:', this.state.currentCity);
         }
       ) // Catch error
       .catch((error) => {
         this.setState({ error: error, isLoaded: true });
+        alert('error getForecastAndWeather');
       });
   }
 
