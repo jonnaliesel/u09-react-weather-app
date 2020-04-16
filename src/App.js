@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 // Components
 import Detail from './components/Detail/Detail';
-
-// import Forecast from './components/Forecast';
+import Loading from './components/Loading/Loading';
+//import Forecast from './components/Forecast';
 import FiveDayForecast from './components/FiveDayForecast/FiveDayForecast';
 import DayForecast from './components/DayForecast/DayForecast';
 import MainTemperatureDisplay from './components/MainTemperatureDisplay/MainTemperatureDisplay';
@@ -29,6 +29,7 @@ class App extends Component {
     this.state = {
       error: null,
       isLoaded: false,
+      loading: true,
       currentCity: 'Stockholm',
       tempUnit: 'metric',
       speedUnit: 'metric',
@@ -51,31 +52,32 @@ class App extends Component {
   };
 
   handleCitySubmit = (event) => {
-    let prevState = this.state;
-    if (prevState.currentCity !== this.city) {
-      this.setState({ currentCity: this.city }, () => {
-        this.getForecastAndWeather();
-      });
+      let prevState = this.state;
+      if (prevState.currentCity !== this.city) {
+          this.setState(
+            { currentCity: this.city }
+          );
+
+      this.getForecastAndWeather();
+      event.preventDefault();
     }
-    event.preventDefault();
   };
 
   showLocation(position) {
-    console.log("showLoc start");
+    console.log('showLoc start');
 
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
 
-      this.setState({
-        latitude: latitude,
-        longitude: longitude,
-        searchMyLocation: true,
-      });
+    this.setState({
+      latitude: latitude,
+      longitude: longitude,
+      searchMyLocation: true,
+    });
 
-      console.log('från showLocation:', this.state);
-      this.getForecastAndWeather();
-    }
-
+    console.log('från showLocation:', this.state);
+    this.getForecastAndWeather();
+  }
 
   locationErrorHandler(err) {
     if (err.code === 1) {
@@ -109,20 +111,27 @@ class App extends Component {
 
   // Wait until both fetches return a response
   getForecastAndWeather() {
+    this.setState({
+      loading: true,
+    });
+
     Promise.all([this.getForecast(), this.getWeather()])
       .then(
         // load the results.json into state
         ([forecast, weather]) => {
           console.log('forecast data:', forecast);
-          this.setState({
-            forecast: forecast,
-            today: weather,
-            isLoaded: true,
-            currentCity: forecast.city.name
-              ? forecast.city.name
-              : this.state.currentCity,
-            searchMyLocation: false,
-          });
+          setTimeout(() => {
+            this.setState({
+              forecast: forecast,
+              today: weather,
+              isLoaded: true,
+              currentCity: forecast.city.name
+                ? forecast.city.name
+                : this.state.currentCity,
+              searchMyLocation: false,
+              loading: false,
+            });
+          }, 3000);
           console.log('Fetched 5-day forecast for:', this.state.currentCity);
         }
       ) // Catch error
@@ -202,7 +211,7 @@ class App extends Component {
 
   render() {
     const { forecast, today, tempUnit, speedUnit } = this.state;
-    const { error, isLoaded, currentCity } = this.state;
+    const { error, isLoaded, currentCity, loading } = this.state;
     // console.log(this.state);
 
     if (error) {
@@ -215,7 +224,11 @@ class App extends Component {
         </div>
       );
     } else if (!isLoaded) {
-      return <div>Loading...</div>;
+      return (
+        <div className='App fullHeight'>
+          <Loading show={!isLoaded} />
+        </div>
+      );
     } else {
       return (
         <div className='App'>
@@ -225,6 +238,9 @@ class App extends Component {
             getLocation={this.getLocation}
             error={this.state.error}
           />
+
+          <Loading show={loading} />
+
           <MainTemperatureDisplay
             city={currentCity}
             temp={today.main.temp}
