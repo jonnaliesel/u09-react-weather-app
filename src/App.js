@@ -19,7 +19,7 @@ import './App.css';
 class App extends Component {
   apiKey = '47191cd2411b39bd47c91b1dfe204dd6';
   city = '';
-  
+
   constructor() {
     super();
     this.handleCityChange = this.handleCityChange.bind(this);
@@ -63,7 +63,7 @@ class App extends Component {
 
   handleSetTempUnitSubmit = (event) => {
     event.preventDefault();
-    console.log(event.tempUnit);
+    console.log('clicked!');
   }
 
   /* componentDidUpdate(prevState) {
