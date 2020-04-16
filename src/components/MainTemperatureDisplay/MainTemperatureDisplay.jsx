@@ -1,8 +1,11 @@
 import React from "react";
 
+// Components
 import Temperature from "../Temperature/Temperature";
 import SetTempUnit from '../SetTempUnit/SetTempUnit';
 
+
+// Styling
 import styles from './styles.module.css';
 
 
@@ -15,10 +18,12 @@ function MainTemperatureDisplay (props){
             <h2 className={styles.h2}>
                 <Temperature temp={temp} tempUnit={tempUnit} />
             </h2>
+
             <SetTempUnit 
                 tempUnit={tempUnit}
                 handleSetTempUnitSubmit={handleSetTempUnitSubmit}
             />
+            
             <img
                 src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
                 alt=""

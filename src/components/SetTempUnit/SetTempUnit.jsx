@@ -2,7 +2,7 @@ import React from 'react';
 
 function SetTempUnit(props) {
 
-    const {handleSetTempUnitSubmit, tempUnit} = props
+    const {handleSetTempUnitSubmit, tempUnit} = props;
 
     return (
         <div>
@@ -13,4 +13,4 @@ function SetTempUnit(props) {
     )
 }
 
-export default SetTempUnit
+export default SetTempUnit;

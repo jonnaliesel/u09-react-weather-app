@@ -10,9 +10,7 @@ const FiveDayForecast = (props) => {
   const weatherData = props.weatherData.list;
   const { tempUnit } = props;
 
-  // console.log('five: ', weatherData);
-
-  let dateOptions = {
+  const dateOptions = {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
@@ -21,8 +19,10 @@ const FiveDayForecast = (props) => {
   return (
     <div className="componentContainer">
       <h3>Five day Forecast</h3>
+      
       {weatherData.map((weatherData) => (
         <div key={weatherData.dt} className={styles.row}>
+          
           {/* Timestamp into readable date */}
           <span className={styles.textLeft}>
             {/* För svenska 'sv-SE' */}
@@ -33,7 +33,6 @@ const FiveDayForecast = (props) => {
             {', ' +
               Intl.DateTimeFormat('sv-SE', {
                 hour: 'numeric',
-                // minute: 'numeric'
               }).format(weatherData.dt * 1000)}
             h
           </span>
@@ -47,20 +46,19 @@ const FiveDayForecast = (props) => {
                 alt={weatherType.description}
                 title={weatherType.description}
               />
-              {/* Weather Icon Description */}
-              {/* <div>{weatherType.description}</div> */}
             </div>
           ))}
 
           {/* Temperature */}
+
           {/* Min Temperature */}
-          <span className={styles.textRight} >
-            <span className={styles.minTemp} >
+          <span className={styles.textRight}>
+            <span className={styles.minTemp}>
               {'⬇' + Math.round(weatherData.main.temp_min)}
               {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
 
               {/* Max Temperature */}
-              <span className={styles.maxTemp} >
+              <span className={styles.maxTemp}>
                 &nbsp; {'⬆' + Math.round(weatherData.main.temp_max)}
                 {tempUnit === 'metric' ? '\u00b0C' : '\u00b0F'}
               </span>
@@ -69,7 +67,7 @@ const FiveDayForecast = (props) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
 export default FiveDayForecast;
