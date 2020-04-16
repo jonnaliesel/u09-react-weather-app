@@ -63,7 +63,10 @@ class App extends Component {
 
   handleSetTempUnitSubmit = (event) => {
     event.preventDefault();
-    console.log('clicked!');
+
+    this.setState((prevState) => (
+      prevState.tempUnit === 'metric' ? {tempUnit: 'imperial'} : {tempUnit: 'metric'}
+    ));
   }
 
   /* componentDidUpdate(prevState) {

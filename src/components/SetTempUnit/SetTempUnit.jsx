@@ -2,12 +2,13 @@ import React from 'react';
 
 function SetTempUnit(props) {
 
-    const {handleSetTempUnitSubmit} = props
+    const {handleSetTempUnitSubmit, tempUnit} = props
 
     return (
         <div>
-            <button onClick={handleSetTempUnitSubmit}>{'\u00b0C'}</button>
-            <button onClick={handleSetTempUnitSubmit}>{'\u00b0F'}</button>
+            <button onClick={handleSetTempUnitSubmit}>
+                {tempUnit === 'metric' ? '\u00b0F': '\u00b0C'}
+            </button>
         </div>
     )
 }

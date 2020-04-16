@@ -7,20 +7,20 @@ import styles from './styles.module.css';
 
 
 function MainTemperatureDisplay (props){
-    const { temp, tempUnit, icon, handleSetTempUnitSubmit } = props;
+    const { city, temp, tempUnit, icon, handleSetTempUnitSubmit } = props;
 
     return (
         <div className="mainTemperatureDisplay">
-            <h1 className={styles.h1}>{props.city}</h1>
+            <h1 className={styles.h1}>{city}</h1>
             <h2 className={styles.h2}>
-                <Temperature temp={props.temp} tempUnit={props.tempUnit} />
+                <Temperature temp={temp} tempUnit={tempUnit} />
             </h2>
             <SetTempUnit 
                 tempUnit={tempUnit}
                 handleSetTempUnitSubmit={handleSetTempUnitSubmit}
             />
             <img
-                src={`http://openweathermap.org/img/wn/${props.icon}@2x.png`}
+                src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
                 alt=""
                 className="icon"
             />
