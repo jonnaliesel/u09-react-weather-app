@@ -1,0 +1,88 @@
+.label {
+    display:inline-block;
+    
+}
+
+.form {
+    padding-top: 40px;
+}
+
+.input {
+    width: 30%;
+    padding: 0.4em;
+    font-size: 15px;  
+    font-family:'Roboto',sans-serif; 
+    font-weight:300;
+    border-radius:0.12em;
+    border:0.1em solid #000000;
+}
+
+.buttonSubmit {
+    display:inline-block;
+    padding:0.4em 1.6em;
+    border:0.1em solid #000000;
+    margin:0 0.2em 0 0.2em;
+    border-radius:0.12em;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    font-size: 15px;  
+    color:#000000;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    background-color:#FFFFFF;
+    text-align:center;
+    transition: all 0.15s;
+    position: relative;
+}
+
+.button {
+    display:inline-block;
+    padding:0.4em 1.6em;
+    border:0.1em solid #000000;
+    margin:0 0.2em 0 0.2em;
+    border-radius:0.12em;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    font-size: 15px;  
+    color:red;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    background-color:#FFFFFF;
+    text-align:center;
+    transition: all 0.15s;
+    position: relative;
+}
+
+.buttonSubmit:hover{
+    animation: bounce 2s infinite;
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    color:rgb(255, 0, 191);
+    background-color:rgb(0, 207, 69);
+}
+
+.button:hover{
+    animation: bounce 2s infinite;
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    color:rgb(255, 0, 191);
+    background-color:rgb(0, 207, 69);
+}
+
+
+@keyframes bounce {
+    0%{top:0em;}
+    40%{top:0em;}
+    43%{top:-0.9em;}
+    46%{top:0em;}
+    48%{top:-0.4em;}
+    50%{top:0em;}
+    100%{top:0em;}
+    }
+
+    @media all and (max-width:30em){
+     button {
+        display:block;
+        margin:0.4em auto;
+    }
+}
+
+    

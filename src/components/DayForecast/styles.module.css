@@ -1,0 +1,20 @@
+
+.daysContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.dayContainer {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: .5rem .25rem;
+  /* padding: .6rem; */
+  text-transform: capitalize;
+  background-color: white;
+}
+
+.dayWeatherIcon{
+  width: 50px;
+}
