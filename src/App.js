@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 // Components
 import Detail from './components/Detail/Detail';
-
-// import Forecast from './components/Forecast';
 import FiveDayForecast from './components/FiveDayForecast/FiveDayForecast';
 import DayForecast from './components/DayForecast/DayForecast';
 import MainTemperatureDisplay from './components/MainTemperatureDisplay/MainTemperatureDisplay';
@@ -11,9 +9,7 @@ import Wind from './components/Wind/Wind';
 import SunAndMoon from './components/SunAndMoon/SunAndMoon';
 import LocationInput from './components/LocationInput/LocationInput'
 
-// Functions
-/* import resizeAllGridItems from './functions/resizeAllGridItems'; */
-
+// Styling
 import './App.css';
 
 class App extends Component {
@@ -22,11 +18,6 @@ class App extends Component {
 
   constructor() {
     super();
-    this.handleCityChange = this.handleCityChange.bind(this);
-    this.handleCitySubmit = this.handleCitySubmit.bind(this);
-    this.handleSetTempUnitSubmit = this.handleSetTempUnitSubmit.bind(this);
-
-
 
     this.state = {
       error: null,
@@ -36,17 +27,14 @@ class App extends Component {
       forecast: {},
       today: {},
     };
+
+    this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleCitySubmit = this.handleCitySubmit.bind(this);
+    this.handleSetTempUnitSubmit = this.handleSetTempUnitSubmit.bind(this);
   }
-  /* tempUnit
-    For temperature in Fahrenheit use units=imperial
-    For temperature in Celsius use units=metric
-    Temperature in Kelvin is used by default,
-    no need to use units parameter in API call
-  */
 
   handleCityChange = (event) => {
     this.city = event.target.value;
-
   }
 
   handleCitySubmit = (event) => {
@@ -74,31 +62,10 @@ class App extends Component {
     this.getForecastAndWeather(temp);
   }
 
-  /* componentDidUpdate(prevState) {
-    if(prevState.currentCity !== this.state.currentCity){
-      this.getForecastAndWeather();
-    } 
-  } */
-
-
   componentDidMount() {
     // When components mount run both fetches and wait for response
     const temp = 'metric';
     this.getForecastAndWeather(temp);
-    /* .then(
-      // load the results.json into state
-      ([forecast, weather]) => {
-        this.setState({
-          forecast: forecast,
-          today: weather,
-          isLoaded: true,
-        }); */
-    // console.log('Forecast: ', forecast);
-    // console.log('weather: ', weather);
-
-
-    // }
-    // );
   }
 
   // Wait until both fetches return a response
@@ -111,7 +78,6 @@ class App extends Component {
           today: weather,
           isLoaded: true,
         });
-        console.log('Fetched 5-day forecast for:', this.state.currentCity);
       }
     ) // Catch error
       .catch(error => {
@@ -122,8 +88,10 @@ class App extends Component {
   }
 
   getForecast(temp) {
+    const {currentCity} = this.state
+
     return fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${temp}&appid=${this.apiKey}`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${currentCity}&units=${temp}&appid=${this.apiKey}`
     ).then((res) => {
       // check if we get an ok response else throw an error
       if (res.ok) {
@@ -134,25 +102,13 @@ class App extends Component {
     },
       // catch error
       (err) => this.setState({ error: err, isLoaded: true }));
-    /* .then(
-        // load the results.json into state
-        (res) => {
-          this.setState({
-            forecast: res.list,
-            isLoaded: true,
-          });
-          // console.log("Forecast state: ",res.list);
-
-          console.log('Fetched 5-day forecast for:', this.state.currentCity);
-        },
-        // catch error
-        (err) => this.setState({ error: err, isLoaded: true })
-      ); */
   }
 
   getWeather(temp) {
+    const {currentCity} = this.state
+
     return fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${this.state.currentCity}&units=${temp}&appid=${this.apiKey}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&units=${temp}&appid=${this.apiKey}`
     ).then((res) => {
       // check if we get an ok response else throw an error
       if (res.ok) {
@@ -163,51 +119,48 @@ class App extends Component {
     },
       // catch error
       (err) => this.setState({ error: err, isLoaded: true }));
-    /*       .then(
-        // load the results.json into state
-        (res) => {
-          this.setState({
-            today: res,
-            isLoaded: true,
-          });
-          console.log('Fetched todays weather for:', this.state.currentCity);
-        },
-        // catch error
-        (err) => this.setState({ error: err, isLoaded: true })
-      ); */
   } 
 
   render() {
-    const { forecast, today, tempUnit } = this.state;
-    const { error, isLoaded, currentCity } = this.state;
-    // console.log(this.state);
+    const { 
+      forecast, 
+      today, 
+      tempUnit,
+      error,
+      isLoaded,
+      currentCity } = this.state;
 
      if (error) {
       return (
         <div>
-        <div>Something went wrong: {error.message}</div>
-        <button type="button" onClick={() => window.location.reload()}>Try again</button>
+          <p>Something went wrong: {error.message}</p>
+          <button type="button" onClick={() => window.location.reload()}>Try again</button>
         </div>
-        );
+      )
       
     } else if (!isLoaded) {
-      return <div>Loading...</div>;
+      return <div>Loading...</div>
     } else {
       return (
         <div className='App'>
-            <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} error={this.state.error} />
-            <MainTemperatureDisplay 
-              city={currentCity} 
-              temp={today.main.temp} 
-              tempUnit={tempUnit} 
-              icon={today.weather[0].icon}
-              handleSetTempUnitSubmit={this.handleSetTempUnitSubmit}
-            />
+          <LocationInput 
+            handleCitySubmit={this.handleCitySubmit} 
+            handleCityChange={this.handleCityChange} 
+            error={this.state.error} 
+          />
+          
+          <MainTemperatureDisplay 
+            city={currentCity} 
+            temp={today.main.temp} 
+            tempUnit={tempUnit} 
+            icon={today.weather[0].icon}
+            handleSetTempUnitSubmit={this.handleSetTempUnitSubmit}
+          />
+
           <div className="container grid">
             <Detail weather={today} tempUnit={tempUnit} />
             <Wind wind={today.wind} speedUnit={tempUnit} />
             <SunAndMoon time={today.sys} />
-            {/* <Forecast currentCity={currentCity} forecast={forecast} tempUnit={tempUnit} /> */}
             <DayForecast weatherData={forecast} tempUnit={tempUnit} />
             <FiveDayForecast weatherData={forecast} tempUnit={tempUnit}/>
           </div>
