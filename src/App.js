@@ -131,7 +131,7 @@ class App extends Component {
               searchMyLocation: false,
               loading: false,
             });
-          }, 3000);
+          }, 1500);
           console.log('Fetched 5-day forecast for:', this.state.currentCity);
         }
       ) // Catch error
