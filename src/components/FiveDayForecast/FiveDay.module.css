@@ -1,0 +1,44 @@
+.FiveDayContainer {
+/* 
+    display: flex;
+    width: fit-content;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+    */
+    padding: 1rem;
+    border: 1px solid gray;
+    border-radius: 10px;
+    text-transform: capitalize;
+    background-color: rgba(33, 47, 59, 0.5);
+}
+    
+.row {
+  /* display: flex; */
+  /* justify-content: space-between; */
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.textLeft {
+  text-align: left;
+}
+
+.textRight {
+  text-align: right;
+}
+  
+.minTemp {
+    color: blue;
+}
+  
+.maxTemp {
+    color: red;
+}
+  
+.dayWeatherIcon{
+  width: 50px;
+}

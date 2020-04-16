@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-// import Api from './Api';
-import Detail from './components/Detail';
-import Forecast from './components/Forecast';
-import Temperature from './components/Temperature';
-import Wind from './components/Wind';
-import SunAndMoon from './components/SunAndMoon';
-import LocationInput from './components/LocationInput'
-import Location from './components/Location'
+
+// Components
+import Detail from './components/Detail/Detail';
+
+// import Forecast from './components/Forecast';
+import FiveDayForecast from './components/FiveDayForecast/FiveDayForecast';
+import DayForecast from './components/DayForecast/DayForecast';
+import MainTemperatureDisplay from './components/MainTemperatureDisplay/MainTemperatureDisplay';
+import Wind from './components/Wind/Wind';
+import SunAndMoon from './components/SunAndMoon/SunAndMoon';
+import LocationInput from './components/LocationInput/LocationInput'
+
+// Functions
+/* import resizeAllGridItems from './functions/resizeAllGridItems'; */
 
 import './App.css';
 
@@ -18,7 +24,7 @@ class App extends Component {
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleCitySubmit = this.handleCitySubmit.bind(this);
     this.getLocation = this.getLocation.bind(this);
-    
+
 
     this.state = {
       error: null,
@@ -47,12 +53,12 @@ class App extends Component {
 
   handleCitySubmit = (event) => {
     let prevState = this.state;
-    if(prevState.currentCity !== this.city){
-      this.setState({currentCity : this.city}, () => {
+    if (prevState.currentCity !== this.city) {
+      this.setState({ currentCity: this.city }, () => {
         this.getForecastAndWeather()
       })
-      
-  }
+
+    }
     event.preventDefault();
   }
 
@@ -66,7 +72,7 @@ class App extends Component {
     if(prevState.latitude !== this.latitude && prevState.longitude !== this.longitude){
       this.setState({latitude: this.latitude,
                      longitude: this.longitude,
-                     searchMyLocation: 'yes' }, 
+                     searchMyLocation: 'yes' },
                      () => {this.getForecastAndWeather()
       })
     }
@@ -80,30 +86,30 @@ class App extends Component {
      alert("Error: Position is unavailable!");
   }
 }
-  
+
  getLocation() {
 
   if(navigator.geolocation) {
      // timeout at 60000 milliseconds (60 seconds)
      var options = {timeout:60000};
      navigator.geolocation.getCurrentPosition(this.showLocation, this.errorHandler, options);
-  } 
+  }
   else {
      alert("Sorry, browser does not support geolocation!");
   }
 
 }
-  
+
   /* componentDidUpdate(prevState) {
     if(prevState.currentCity !== this.state.currentCity){
       this.getForecastAndWeather();
-    } 
+    }
   } */
 
 
   componentDidMount() {
     // When components mount run both fetches and wait for response
-    this.getForecastAndWeather()
+    this.getForecastAndWeather();
     /* .then(
       // load the results.json into state
       ([forecast, weather]) => {
@@ -115,7 +121,7 @@ class App extends Component {
     // console.log('Forecast: ', forecast);
     // console.log('weather: ', weather);
 
-    
+
     // }
     // );
   }
@@ -130,19 +136,22 @@ class App extends Component {
           today: weather,
           isLoaded: true,
         });
+        console.log('Fetched 5-day forecast for:', this.state.currentCity);
       }
+    ) // Catch error
+      .catch(error => {
+        this.setState({ error: error, isLoaded: true });
+      }
+
       )
-      console.log('Fetched 5-day forecast for:', this.state.currentCity);
   }
 
-
-
   getForecast() {
-    
+
       if(this.state.searchMyLocation=='yes'){
         return fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat={this.state.latitude}&lon={this.state.longitude}&appid={this.apiKey}`
-        )} 
+        )}
       else{
         return fetch(
       `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
@@ -174,11 +183,11 @@ class App extends Component {
   }
 
   getWeather() {
-    
+
       if(this.state.searchMyLocation=='yes'){
-        return fetch( 
+        return fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat={this.state.latitude}&lon={this.state.longitude}&appid={this.apiKey}`
-        )} 
+        )}
       else{
       return fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
@@ -191,32 +200,39 @@ class App extends Component {
         throw new Error(`${res.status} ${res.statusText}`);
       }
     },
-   
+
       (err) => this.setState({ error: err, isLoaded: true }));
 
   }
 
   render() {
     const { forecast, today, tempUnit, speedUnit } = this.state;
-    const { error, isLoaded /*weatherData*/ } = this.state;
+    const { error, isLoaded, currentCity } = this.state;
     // console.log(this.state);
 
-    if (error) {
-      return <div>Something went wrong: {error.message}</div>;
+     if (error) {
+      return (
+        <div>
+        <div>Something went wrong: {error.message}</div>
+        <button type="button" onClick={() => window.location.reload()}>Try again</button>
+        </div>
+        );
+
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
       return (
         <div className='App'>
-          {/* <Detail temp={temp} /> */}
-          <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} />
-          <p>{this.state.currentCity}</p>
-          <Location />
-          <Forecast forecast={forecast} tempUnit={tempUnit} />
-          <Temperature temp={today.main.temp} tempUnit={tempUnit} />
-          <Detail weather={today} tempUnit={tempUnit} />
-          <Wind wind={today.wind} speedUnit={speedUnit} />
-          <SunAndMoon time={today.sys} />
+            <LocationInput handleCitySubmit={this.handleCitySubmit} handleCityChange={this.handleCityChange} error={this.state.error} />
+            <MainTemperatureDisplay city={currentCity} temp={today.main.temp} tempUnit={tempUnit} icon={today.weather[0].icon}/>
+          <div className="container grid">
+            <Detail weather={today} tempUnit={tempUnit} />
+            <Wind wind={today.wind} speedUnit={speedUnit} />
+            <SunAndMoon time={today.sys} />
+            {/* <Forecast currentCity={currentCity} forecast={forecast} tempUnit={tempUnit} /> */}
+            <DayForecast weatherData={forecast} tempUnit={tempUnit} />
+            <FiveDayForecast weatherData={forecast} tempUnit={tempUnit}/>
+          </div>
         </div>
       );
     }
