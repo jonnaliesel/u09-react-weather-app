@@ -6,11 +6,16 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import '../../App.css'
 
 function Wind(props) {
+    const {speed, deg} = props.wind;
+    const {speedUnit} = props;
     return (
         <div className="componentContainer">
             <h3>Wind</h3>
-            <p>Speed: {`${props.wind.speed} ${props.speedUnit === 'metric' ? 'km/h' : 'mPh'} NW`} <FontAwesomeIcon icon={faArrowUp} transform={{ rotate: props.wind.deg }} /></p>
-            
+            <p>Speed: {`
+                ${speed} 
+                ${speedUnit === 'metric' ? 'km/h' : 'mPh'} NW`
+                } <FontAwesomeIcon icon={faArrowUp} transform={{ rotate: deg }} />
+            </p>
         </div>
     )
 }
