@@ -1,32 +1,14 @@
 import React from 'react';
 
+//Functions
 import convertTime from '../../functions/ConvertTime';
 import convertWeekday from '../../functions/ConvertWeekday';
 
+// Component specific styling
 import styles from './styles.module.css';
 
 // imports global styles used on top level div
 import '../../App.css'
-
-/* const dayForecastContainerStyle = {
-  border: '1px solid',
-  borderRadius: '10px',
-  backgroundColor: 'rgba(120, 120, 120, .25)',
-};
-
-const daysContainerStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-};
-
-const dayContainerStyle = {
-  border: '1px solid',
-  borderRadius: '10px',
-  margin: '.5rem .25rem',
-  padding: '.6rem',
-  textTransform: 'capitalize',
-  backgroundColor: 'white',
-}; */
 
 const DayForecast = (props) => {
   // console.log('DayForecast props: ', props);
@@ -42,9 +24,8 @@ const DayForecast = (props) => {
 
   // If the prop has received data push the first nine objects to array
   if (weatherData.length > 1) {
-    // console.log(weatherData);
-    for (let i = 0; i < 9; i++) {
-      dayTempList.push(weatherData[i]);
+    for (let index = 0; index < 9; index++) {
+      dayTempList.push(weatherData[index]);
     }
 
     return (
@@ -71,7 +52,6 @@ const DayForecast = (props) => {
                     alt={weatherType.description}
                     title={weatherType.description}
                   />
-                  {/* <div>{weatherType.description}</div> */}
                 </div>
               ))}
               {/* Temperature */}
@@ -83,7 +63,7 @@ const DayForecast = (props) => {
           ))}
         </div>
       </div>
-    );
-  };
+    )
+  }
 }
 export default DayForecast;
