@@ -62,7 +62,7 @@ class App extends Component {
   handleCitySubmit = (event) => {
     let prevState = this.state;
     const temp = 'metric';
-    if (prevState.currentCity !== this.city) {
+    if (prevState.currentCity !== this.city  && this.city.length > 1) {
       this.setState({ currentCity: this.city }, () => {
         this.getForecastAndWeather(temp);
       });

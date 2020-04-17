@@ -7,14 +7,12 @@
 }
 
 .dayContainer {
-  border: 1px solid black;
   border-radius: 10px;
-  margin: .5rem .25rem;
-  /* padding: .6rem; */
+  margin: .2rem .10rem;
   text-transform: capitalize;
-  background-color: white;
+  color: white;
 }
 
 .dayWeatherIcon{
-  width: 70px;
+  width: 60px;
 }
