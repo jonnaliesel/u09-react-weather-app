@@ -44,7 +44,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 ### `npm install`
-After cloning git hub repository, run npm install to install required dependencies
+After cloning git hub repository, run "npm install" to install required dependencies
 
 ### `npm start`
 
