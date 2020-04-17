@@ -18,7 +18,7 @@ import LocationInput from './components/LocationInput/LocationInput';
 import './App.css';
 
 class App extends Component {
-  apiKey = '47191cd2411b39bd47c91b1dfe204dd6';
+  apiKey = '';
   city = '';
 
   constructor() {
