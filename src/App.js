@@ -53,16 +53,19 @@ class App extends Component {
 
   handleCitySubmit = (event) => {
     let prevState = this.state;
-    // console.log(this.city)
     if (prevState.currentCity !== this.city) {
+      console.log(this.city);
+
       this.setState({
         currentCity: this.city,
-        searchMyLocation: false,
       });
-      // console.log('Handle Submit: ', this.state);
 
+      console.log('Handle Submit: ', this.state);
       this.getForecastAndWeather();
+
       event.preventDefault();
+    } else {
+      return;
     }
   };
 
@@ -78,7 +81,8 @@ class App extends Component {
       searchMyLocation: true,
     });
 
-    // console.log('från showLocation:', this.state);
+
+     console.log('från showLocation:', this.state);
     this.getForecastAndWeather();
   }
 
@@ -113,6 +117,8 @@ class App extends Component {
 
   // Wait until both fetches return a response
   getForecastAndWeather() {
+    console.log("forecast weather", this.state);
+
     this.setState({
       loading: true,
     });
@@ -127,9 +133,10 @@ class App extends Component {
               forecast: forecast,
               today: weather,
               isLoaded: true,
-              currentCity: forecast.city.name //this is where the search gets overwritten
-                ? forecast.city.name
-                : this.state.currentCity,
+              currentCity: forecast.city.name,
+               /* forecast.city.name  !== this.state.currentCity //this is where the search gets overwritten ? Yes
+                  ? this.state.currentCity
+                  : forecast.city.name, */
               searchMyLocation: false,
               loading: false,
             });
@@ -160,6 +167,8 @@ class App extends Component {
         (err) => this.setState({ error: err, isLoaded: true })
       );
     } else {
+      console.log('fetch forecast current city:', this.state.currentCity);
+
       return fetch(
         `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
       ).then(
