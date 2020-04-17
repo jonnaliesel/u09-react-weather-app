@@ -38,7 +38,14 @@ class App extends Component {
       latitude: '',
       longitude: '',
       searchMyLocation: false,
+      favoritePlaces: [
+        "stockholm",
+        "göteborg"
+      ]
     };
+
+    localStorage.clear()
+    localStorage.setItem("favorites", JSON.stringify(this.state.favoritePlaces))
   }
   /* tempUnit
     For temperature in Fahrenheit use units=imperial
@@ -70,7 +77,7 @@ class App extends Component {
   };
 
   showLocation(position) {
-    // console.log('showLoc start');
+     console.log('showLoc start', position);
 
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
@@ -97,7 +104,7 @@ class App extends Component {
   getLocation() {
     if (navigator.geolocation) {
       // timeout at 60000 milliseconds (60 seconds)
-      const options = { timeout: 60000 /* enableHighAccuracy: true */ };
+      const options = { timeout: 60000, enableHighAccuracy: true };
 
       navigator.geolocation.getCurrentPosition(
         this.showLocation,

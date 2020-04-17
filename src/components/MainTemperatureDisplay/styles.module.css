@@ -10,3 +10,9 @@
 .icon {
     width: 100px;
 }
+
+.heartButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+}
