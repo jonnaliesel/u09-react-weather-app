@@ -39,7 +39,7 @@ class App extends Component {
       latitude: '',
       longitude: '',
       searchMyLocation: false,
-      favoritePlaces: ['stockholm', 'göteborg'],
+      favoritePlaces: ['stockholm', 'göteborg', 'malmö'],
     };
 
     localStorage.clear();

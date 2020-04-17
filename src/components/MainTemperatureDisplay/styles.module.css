@@ -11,8 +11,23 @@
     width: 100px;
 }
 
+.h1AndHeart {
+    display: inline-flex;
+}
+
 .heartButton {
     background: none;
     border: none;
     font-size: 2rem;
+}
+.favoriteIcon {
+    color: red;
+}
+
+.favoriteIcon:hover {
+    color: black;
+}
+
+.heartIcon:hover {
+    color: red;
 }
