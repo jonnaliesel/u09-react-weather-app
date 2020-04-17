@@ -1,5 +1,5 @@
 .FiveDayContainer {
-/* 
+/*
     display: flex;
     width: fit-content;
     flex-wrap: wrap;
@@ -13,14 +13,30 @@
     text-transform: capitalize;
     background-color: rgba(33, 47, 59, 0.5);
 }
-    
+
 .row {
-  /* display: flex; */
-  /* justify-content: space-between; */
   align-items: center;
-  border-bottom: 1px solid lightgray;
+  /* border-bottom: 1px solid lightgray; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  padding: 0 2rem;
+  position: relative;
+}
+
+.row::after{
+  content: "";
+  background: lightgray;
+  opacity: 50%;
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  width: 80%;
+  height: 1px;
+}
+
+.row:last-child::after {
+  display: none;
 }
 
 .textLeft {
@@ -30,15 +46,15 @@
 .textRight {
   text-align: right;
 }
-  
+
 .minTemp {
     color: blue;
 }
-  
+
 .maxTemp {
     color: red;
 }
-  
+
 .dayWeatherIcon{
   width: 50px;
 }

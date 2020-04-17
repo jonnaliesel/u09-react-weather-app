@@ -1,0 +1,15 @@
+.loadingContainer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+}
+
+.spinner{
+    position: relative;
+    top: 44%;
+    font-size: 50px;
+    color: rgb(236, 110, 76);
+  }

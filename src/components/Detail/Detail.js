@@ -10,7 +10,7 @@ import '../../App.css'
 function Detail(props) {
 //   console.log('Detail props', props);
 
-  const { main, weather } = props.weather;
+  const { main } = props.weather;
 
   return (
     <div className="componentContainer">
@@ -19,7 +19,7 @@ function Detail(props) {
       <p>
         Feels like <Temperature temp={main.feels_like} tempUnit={props.tempUnit} />
       </p>
-      
+
       {/* <img
         src={`http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`}
         alt={weather.description}
