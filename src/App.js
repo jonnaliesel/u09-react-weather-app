@@ -39,6 +39,7 @@ class App extends Component {
       longitude: '',
       searchMyLocation: false,
       favoritePlaces: [
+
         "stockholm",
         "göteborg"
       ]
@@ -60,24 +61,16 @@ class App extends Component {
 
   handleCitySubmit = (event) => {
     let prevState = this.state;
-    if (prevState.currentCity !== this.city) {
-      console.log(this.city);
+    if(prevState.currentCity !== this.city){
+      this.setState({currentCity : this.city}, () => {
+        this.getForecastAndWeather()
+      })
 
-      this.setState({
-        currentCity: this.city,
-      });
-
-      console.log('Handle Submit: ', this.state);
-      this.getForecastAndWeather();
-
-      event.preventDefault();
-    } else {
-      return;
-    }
-  };
+  }
+    event.preventDefault();
+  }
 
   showLocation(position) {
-     console.log('showLoc start', position);
 
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
@@ -89,7 +82,7 @@ class App extends Component {
     });
 
 
-     console.log('från showLocation:', this.state);
+
     this.getForecastAndWeather();
   }
 
@@ -124,8 +117,6 @@ class App extends Component {
 
   // Wait until both fetches return a response
   getForecastAndWeather() {
-    console.log("forecast weather", this.state);
-
     this.setState({
       loading: true,
     });
@@ -134,20 +125,17 @@ class App extends Component {
       .then(
         // load the results.json into state
         ([forecast, weather]) => {
-          console.log('forecast data:', forecast);
+
           setTimeout(() => {
             this.setState({
               forecast: forecast,
               today: weather,
               isLoaded: true,
-              currentCity: forecast.city.name,
-               /* forecast.city.name  !== this.state.currentCity //this is where the search gets overwritten ? Yes
-                  ? this.state.currentCity
-                  : forecast.city.name, */
+              currentCity: forecast.city.name  !== this.state.currentCity ? forecast.city.name : this.state.currentCity,
               searchMyLocation: false,
               loading: false,
             });
-            console.log('Fetched 5-day forecast for:', this.state.currentCity);
+
           }, 1500);
         }
       ) // Catch error
@@ -174,22 +162,20 @@ class App extends Component {
         (err) => this.setState({ error: err, isLoaded: true })
       );
     } else {
-      console.log('fetch forecast current city:', this.state.currentCity);
-
-      return fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
-      ).then(
-        (res) => {
-          // check if we get an ok response else throw an error
-          if (res.ok) {
-            return res.json();
-          } else {
-            throw new Error(`${res.status} ${res.statusText}`);
-          }
-        },
-        // catch error
-        (err) => this.setState({ error: err, isLoaded: true })
-      );
+        return fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentCity}&units=${this.state.tempUnit}&appid=${this.apiKey}`
+        ).then(
+          (res) => {
+            // check if we get an ok response else throw an error
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error(`${res.status} ${res.statusText}`);
+            }
+          },
+          // catch error
+          (err) => this.setState({ error: err, isLoaded: true })
+        );
     }
   }
 
