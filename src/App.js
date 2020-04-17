@@ -52,11 +52,14 @@ class App extends Component {
   };
 
   handleCitySubmit = (event) => {
-      let prevState = this.state;
-      if (prevState.currentCity !== this.city) {
-          this.setState(
-            { currentCity: this.city }
-          );
+    let prevState = this.state;
+    // console.log(this.city)
+    if (prevState.currentCity !== this.city) {
+      this.setState({
+        currentCity: this.city,
+        searchMyLocation: false,
+      });
+      // console.log('Handle Submit: ', this.state);
 
       this.getForecastAndWeather();
       event.preventDefault();
@@ -64,7 +67,7 @@ class App extends Component {
   };
 
   showLocation(position) {
-    console.log('showLoc start');
+    // console.log('showLoc start');
 
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
@@ -75,7 +78,7 @@ class App extends Component {
       searchMyLocation: true,
     });
 
-    console.log('från showLocation:', this.state);
+    // console.log('från showLocation:', this.state);
     this.getForecastAndWeather();
   }
 
@@ -88,10 +91,9 @@ class App extends Component {
   }
 
   getLocation() {
-    console.log('clicked getLocation button', this.state);
     if (navigator.geolocation) {
       // timeout at 60000 milliseconds (60 seconds)
-      var options = { timeout: 60000 /* enableHighAccuracy: true */ };
+      const options = { timeout: 60000 /* enableHighAccuracy: true */ };
 
       navigator.geolocation.getCurrentPosition(
         this.showLocation,
@@ -125,14 +127,14 @@ class App extends Component {
               forecast: forecast,
               today: weather,
               isLoaded: true,
-              currentCity: forecast.city.name
+              currentCity: forecast.city.name //this is where the search gets overwritten
                 ? forecast.city.name
                 : this.state.currentCity,
               searchMyLocation: false,
               loading: false,
             });
+            console.log('Fetched 5-day forecast for:', this.state.currentCity);
           }, 1500);
-          console.log('Fetched 5-day forecast for:', this.state.currentCity);
         }
       ) // Catch error
       .catch((error) => {

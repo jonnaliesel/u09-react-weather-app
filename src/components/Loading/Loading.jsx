@@ -6,7 +6,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 const Loading = (props) => {
 if(props.show){
   return (
-    <div className='Loading' className={styles.loadingContainer} >
+    <div className={`${styles.loadingContainer} Loading`} >
       <FontAwesomeIcon  icon={faSpinner} className={styles.spinner} pulse />
     </div>
   );
