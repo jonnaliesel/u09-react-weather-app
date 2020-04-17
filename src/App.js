@@ -253,6 +253,8 @@ class App extends Component {
             handleCityChange={this.handleCityChange}
             getLocation={this.getLocation}
             error={this.state.error}
+            handleSetTempUnitSubmit={this.handleSetTempUnitSubmit}
+            tempUnit={tempUnit}
           />
 
           <Loading show={loading} />
@@ -262,7 +264,6 @@ class App extends Component {
             temp={today.main.temp}
             tempUnit={tempUnit}
             icon={today.weather[0].icon}
-            handleSetTempUnitSubmit={this.handleSetTempUnitSubmit}
           />
           <div className='container grid'>
             <Detail weather={today} tempUnit={tempUnit} />
