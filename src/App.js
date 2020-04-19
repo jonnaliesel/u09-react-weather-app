@@ -6,6 +6,7 @@ import Loading from './components/Loading/Loading';
 //import Forecast from './components/Forecast';
 import FiveDayForecast from './components/FiveDayForecast/FiveDayForecast';
 import DayForecast from './components/DayForecast/DayForecast';
+import DayGraph from './components/DayGraph/DayGraph'
 import MainTemperatureDisplay from './components/MainTemperatureDisplay/MainTemperatureDisplay';
 import Wind from './components/Wind/Wind';
 import SunAndMoon from './components/SunAndMoon/SunAndMoon';
@@ -17,7 +18,7 @@ import LocationInput from './components/LocationInput/LocationInput';
 import './App.css';
 
 class App extends Component {
-  apiKey = '47191cd2411b39bd47c91b1dfe204dd6';
+  apiKey = '';
   city = '';
 
   constructor() {
